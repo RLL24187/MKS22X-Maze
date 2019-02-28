@@ -21,6 +21,28 @@ public class Maze{
     public Maze(String filename) throws FileNotFoundException{
         //COMPLETE CONSTRUCTOR
         animate = false;
+        File f = new File(filename);
+        Scanner s = new Scanner(f);
+        String temp = "";
+        int counter = 0;
+        int countE = 0; //for chacking if there is exactly 1E and 1S
+        int countS = 0;
+        while (s.hasNextLine()){ //stores chars into a 2d arrayList for now
+          temp = s.nextLine();
+          for (int i = 0; i<temp.length(); i++){
+            if (temp.charAt(i)=='E'){
+              countE++;
+            }
+            else if (temp.charAt(i)=='S'){
+              countS++;
+            }
+            maze[counter][i] = temp.charAt(i);
+          }
+          counter++;
+        }
+        if (countE!=1 || countS!=1){
+          throw new IllegalStateException();
+        }
     }
 
     private void wait(int millis){
@@ -48,6 +70,13 @@ public class Maze{
      It should look like the text file with some characters replaced.
     */
     public String toString(){
+      String s = "";
+      for (int i = 0; i < maze.length; i++){
+        for (int j = 0; j < maze[0].length; j++){
+          s+=maze[i][j];
+        }
+
+      }
             return "WRITE THIS METHOD";
     }
 
@@ -63,6 +92,7 @@ public class Maze{
 
             //and start solving at the location of the s.
             //return solve(???,???);
+        return 0;
     }
 
     /*
