@@ -22,13 +22,21 @@ public class Maze{
         //COMPLETE CONSTRUCTOR
         animate = false;
         File f = new File(filename);
-        Scanner s = new Scanner(f);
-        String temp = "";
-        int counter = 0;
+        Scanner s1 = new Scanner(f); //find the rows and cols to instantiate maze
+        Scanner s2 = new Scanner(f); //put everything in maze
+        int rows = 0; //dimensions of maze
+        int cols = 0;
         int countE = 0; //for chacking if there is exactly 1E and 1S
         int countS = 0;
-        while (s.hasNextLine()){ //stores chars into a 2d arrayList for now
-          temp = s.nextLine();
+        while (s1.hasNextLine()){ //find dimensions of maze
+          rows++;
+          String s = s1.nextLine();
+          cols = s.length();
+        }
+        maze = new char[rows][cols];
+        int row = 0;
+        while (s2.hasNextLine()){ //stores chars into maze
+          String temp =s2.nextLine();
           for (int i = 0; i<temp.length(); i++){
             if (temp.charAt(i)=='E'){
               countE++;
@@ -36,9 +44,9 @@ public class Maze{
             else if (temp.charAt(i)=='S'){
               countS++;
             }
-            maze[counter][i] = temp.charAt(i);
+            maze[row][i] = temp.charAt(i);
           }
-          counter++;
+          row++;
         }
         if (countE!=1 || countS!=1){
           throw new IllegalStateException();
@@ -75,9 +83,9 @@ public class Maze{
         for (int j = 0; j < maze[0].length; j++){
           s+=maze[i][j];
         }
-
+        s+="\n";
       }
-            return "WRITE THIS METHOD";
+      return s;
     }
 
 
