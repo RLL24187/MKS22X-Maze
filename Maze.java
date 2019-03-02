@@ -48,7 +48,7 @@ public class Maze{
           }
           row++;
         }
-        if (countE!=1 || countS!=1){
+        if (countE!=1 || countS!=1){ //invalid maze
           throw new IllegalStateException();
         }
     }
@@ -95,12 +95,21 @@ public class Maze{
     */
     public int solve(){
             //find the location of the S.
-
-            //erase the S
-
+          int r, c; //coors of S
+          for (int i = 0; i < maze.length; i++){
+            for (int j = 0; j < maze[0].length; j++){
+              if (maze[i][j]=='S'){
+                r = i; //store the coors
+                c = j;
+                maze[i][j]=' '; //erase the s
+                i = maze.length;
+                j = maze[0].length;
+              }
+            }
+          }
             //and start solving at the location of the s.
             //return solve(???,???);
-        return 0;
+        return solve(r, c);
     }
 
     /*
