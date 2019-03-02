@@ -4,6 +4,7 @@ public class Maze{
 
     private char[][]maze;
     private boolean animate;//false by default
+    private int solvedAts; //number of @s in solution
 
     /*Constructor loads a maze text file, and sets animate to false by default.
 
@@ -28,6 +29,7 @@ public class Maze{
         int cols = 0;
         int countE = 0; //for chacking if there is exactly 1E and 1S
         int countS = 0;
+        solvedAts = -1;
         while (s1.hasNextLine()){ //find dimensions of maze
           rows++;
           String s = s1.nextLine();
@@ -128,47 +130,51 @@ public class Maze{
         All visited spots that are part of the solution are changed to '@'
     */
     private int solve(int row, int col, int ats){ //you can add more parameters since this is private
+      //System.out.println("ats: "+ats); //debug
       //automatic animation! You are welcome.
       if(animate){
           clearTerminal();
           System.out.println(this);
           wait(20);
       }
-      //COMPLETE SOLVE
       //base case: solved
       if (maze[row][col]=='E'){
-        setAnimate(false);
+        setAnimate(false); //it's been solved, no more need to animate
+        //System.out.println("Solved!!!!!!!!!!!!!");
+        //System.out.println("Ats solved: "+ats);
+        solvedAts = ats;
         return ats; //return number of @s
       }
+      //System.out.println("animate: "+animate);
       if (animate){
-        if (canMoveUp(row,col)){
+        if (canMoveUp(row,col) && solvedAts<0){
           maze[row][col]='@';
-          ats++;
-          solve(row - 1, col, ats);
+          solve(row - 1, col, ats+1);
         }
 
-        if (canMoveDown(row,col)){
+        if (canMoveDown(row,col) && solvedAts<0){
           maze[row][col]='@';
-          ats++;
-          solve(row + 1, col, ats);
+          solve(row + 1, col, ats+1);
         }
 
-        if (canMoveLeft(row,col)){
+        if (canMoveLeft(row,col) && solvedAts<0){
           maze[row][col]='@';
-          ats++;
-          solve(row, col - 1, ats);
+          solve(row, col - 1, ats+1);
         }
 
-        if (canMoveRight(row,col)){
+        if (canMoveRight(row,col) && solvedAts<0){
           maze[row][col]='@';
-          ats++;
-          solve(row, col + 1, ats);
+          solve(row, col + 1, ats+1);
         }
         //if these don't work, backtrack
-        maze[row][col]='.';
-        ats--;
+        if (solvedAts < 0){
+          maze[row][col]='.';
+          ats--;
+        }
+        //COMPLETE SOLVE
       }
-      return -1; //compile!
+      //System.out.println(ats);
+      return solvedAts; //no solution
     }
 
     private boolean canMoveUp(int r, int c){
