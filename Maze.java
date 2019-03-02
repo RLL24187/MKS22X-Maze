@@ -109,7 +109,7 @@ public class Maze{
           }
             //and start solving at the location of the s.
             //return solve(???,???);
-        return solve(r, c);
+        return solve(r, c, 0);
     }
 
     /*
@@ -125,7 +125,14 @@ public class Maze{
         All visited spots that were not part of the solution are changed to '.'
         All visited spots that are part of the solution are changed to '@'
     */
-    private int solve(int row, int col){ //you can add more parameters since this is private
+    private int solve(int row, int col, int ats){ //you can add more parameters since this is private
+      //base case: solved
+      if (maze[r][c]=='E'){
+        return ats; //return number of @s
+      }
+      if (!canMoveUp(row,col) && !canMoveDown(row,col) && !canMoveLeft(row,col) && !canMoveRight(row,col)){ //all surrounding spaces have nowhere to go :(
+        return -1;
+      }
 
         //automatic animation! You are welcome.
         if(animate){
@@ -138,4 +145,17 @@ public class Maze{
         return -1; //so it compiles
     }
 
+    private boolean canMoveUp(r, c){
+      return maze[r-1][c]=='@' || maze[r-1][c]==' ';
+    }
+
+    private boolean canMoveDown(r, c){
+      return maze[r+1][c]=='@' || maze[r+1][c]==' ';
+    }
+    private boolean canMoveLeft(r, c){
+      return maze[r][c-1]=='@' || maze[r][c-1]==' ';
+    }
+    private boolean canMoveRight(r, c){
+      return maze[r][c+1]=='@' || maze[r][c+1]==' ';
+    }
 }
