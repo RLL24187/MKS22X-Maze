@@ -4,7 +4,13 @@ public class Maze{
 
     private char[][]maze;
     private boolean animate;//false by default
-    private int solvedAts; //number of @s in solution
+    int[][] increments = {
+      {0, 1},
+      {0,-1},
+      {1, 0},
+      {-1,0}
+    };
+    //private int solvedAts; //number of @s in solution
 
     /*Constructor loads a maze text file, and sets animate to false by default.
 
@@ -29,7 +35,7 @@ public class Maze{
         int cols = 0;
         int countE = 0; //for chacking if there is exactly 1E and 1S
         int countS = 0;
-        solvedAts = -1;
+        //solvedAts = -1;
         while (s1.hasNextLine()){ //find dimensions of maze
           rows++;
           String s = s1.nextLine();
@@ -139,14 +145,25 @@ public class Maze{
       }
       //base case: solved
       if (maze[row][col]=='E'){
-        setAnimate(false); //it's been solved, no more need to animate
+        //setAnimate(false); //it's been solved, no more need to animate
         //System.out.println("Solved!!!!!!!!!!!!!");
         //System.out.println("Ats solved: "+ats);
-        solvedAts = ats;
+        //solvedAts = ats;
         return ats; //return number of @s
       }
       //System.out.println("animate: "+animate);
-      if (animate){
+      //if (animate){
+      for (int i = 0; i < 4; i++){
+        if (canMove(row, col, increments[i][0], increments[i][1])){
+          maze[row][col]='@';
+          solve(row + increments[i][0], col + increments[i][1], ats+1);
+        }
+        else{
+          maze[row][col]='.';
+          ats--;
+        }
+      }
+      /*
         if (canMoveUp(row,col) && solvedAts<0){
           maze[row][col]='@';
           solve(row - 1, col, ats+1);
@@ -165,16 +182,21 @@ public class Maze{
         if (canMoveRight(row,col) && solvedAts<0){
           maze[row][col]='@';
           solve(row, col + 1, ats+1);
-        }
+        }*/
         //if these don't work, backtrack
-        if (solvedAts < 0){
-          maze[row][col]='.';
-          ats--;
-        }
+        //if (solvedAts < 0){
+        //  maze[row][col]='.';
+        //  ats--;
+        //}
         //COMPLETE SOLVE
+        return ats;
       }
       //System.out.println(ats);
-      return solvedAts; //no solution
+      //return solvedAts; //no solution
+    //}
+
+    private boolean canMove(int r, int c, int changeR, int changeC){
+      return maze[r+changeR][c+changeC]==' '||maze[r+changeR][c+changeC]=='E';
     }
 
     private boolean canMoveUp(int r, int c){
