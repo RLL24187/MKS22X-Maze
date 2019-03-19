@@ -145,69 +145,25 @@ public class Maze{
       }
       //base case: solved
       if (maze[row][col]=='E'){
-        //setAnimate(false); //it's been solved, no more need to animate
-        //System.out.println("Solved!!!!!!!!!!!!!");
-        //System.out.println("Ats solved: "+ats);
-        //solvedAts = ats;
-        System.out.println("Stop!");
+        //System.out.println("Stop!");
         return ats; //return number of @s
       }
       //System.out.println("animate: "+animate);
-      //if (animate){
       for (int i = 0; i < 4; i++){
         if (canMove(row, col, increments[i][0], increments[i][1])){
           maze[row][col]='@';
-          solve(row + increments[i][0], col + increments[i][1], ats+1);
+          int a = solve(row + increments[i][0], col + increments[i][1], ats+1);
+          if (a != -1){
+            return a; //will only return -1 at the end
+          }
         }
         maze[row][col]='.';
       }
-      /*
-        if (canMoveUp(row,col) && solvedAts<0){
-          maze[row][col]='@';
-          solve(row - 1, col, ats+1);
-        }
-
-        if (canMoveDown(row,col) && solvedAts<0){
-          maze[row][col]='@';
-          solve(row + 1, col, ats+1);
-        }
-
-        if (canMoveLeft(row,col) && solvedAts<0){
-          maze[row][col]='@';
-          solve(row, col - 1, ats+1);
-        }
-
-        if (canMoveRight(row,col) && solvedAts<0){
-          maze[row][col]='@';
-          solve(row, col + 1, ats+1);
-        }*/
-        //if these don't work, backtrack
-        //if (solvedAts < 0){
-        //  maze[row][col]='.';
-        //  ats--;
-        //}
         //COMPLETE SOLVE
         return -1;
-      }
-      //System.out.println(ats);
-      //return solvedAts; //no solution
-    //}
+    }
 
     private boolean canMove(int r, int c, int changeR, int changeC){
       return maze[r+changeR][c+changeC]==' '||maze[r+changeR][c+changeC]=='E';
-    }
-
-    private boolean canMoveUp(int r, int c){
-      return maze[r-1][c]==' '||maze[r-1][c]=='E';
-    }
-
-    private boolean canMoveDown(int r, int c){
-      return maze[r+1][c]==' '||maze[r+1][c]=='E';
-    }
-    private boolean canMoveLeft(int r, int c){
-      return maze[r][c-1]==' '||maze[r][c-1]=='E';
-    }
-    private boolean canMoveRight(int r, int c){
-      return maze[r][c+1]==' '||maze[r][c+1]=='E';
     }
 }
