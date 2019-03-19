@@ -149,6 +149,7 @@ public class Maze{
         //System.out.println("Solved!!!!!!!!!!!!!");
         //System.out.println("Ats solved: "+ats);
         //solvedAts = ats;
+        System.out.println("Stop!");
         return ats; //return number of @s
       }
       //System.out.println("animate: "+animate);
@@ -158,10 +159,7 @@ public class Maze{
           maze[row][col]='@';
           solve(row + increments[i][0], col + increments[i][1], ats+1);
         }
-        else{
-          maze[row][col]='.';
-          ats--;
-        }
+        maze[row][col]='.';
       }
       /*
         if (canMoveUp(row,col) && solvedAts<0){
@@ -189,7 +187,7 @@ public class Maze{
         //  ats--;
         //}
         //COMPLETE SOLVE
-        return ats;
+        return -1;
       }
       //System.out.println(ats);
       //return solvedAts; //no solution
